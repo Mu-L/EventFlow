@@ -1,3 +1,12 @@
+### New in 1.1.1 (working version, not released yet)
+
+* Fix: Invoking `UseEventPersistence` now removes any previously registered event persistence. This
+  fixes a service ordering issue in the following event store configurations
+  - MongoDB
+  - MSSQL
+  - PostgreSQL
+
+
 ### New in 1.1.0 (released 2024-12-16)
 
 * New: More control of event naming by introducing the interface `IEventNamingStrategy`, see the
