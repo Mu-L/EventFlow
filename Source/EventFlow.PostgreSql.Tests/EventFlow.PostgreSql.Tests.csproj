@@ -3,6 +3,11 @@
     <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="IntegrationTests\ReadStores\Scripts\0001 - Create table ReadModel-ThingyAggregate.sql" />
@@ -12,10 +17,6 @@
   <ItemGroup>
     <EmbeddedResource Include="IntegrationTests\ReadStores\Scripts\0001 - Create table ReadModel-ThingyAggregate.sql" />
     <EmbeddedResource Include="IntegrationTests\ReadStores\Scripts\0002 - Create table ReadModel-ThingyMessage.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
