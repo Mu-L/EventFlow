@@ -79,7 +79,7 @@ namespace EventFlow.SQLite.EventStores
                 LIMIT @pageSize";
             var eventDataModels = await _connection.QueryAsync<EventDataModel>(
                     Label.Named("sqlite-fetch-events"),
-                    string.Empty,
+                    null,
                     cancellationToken,
                     sql,
                     new
@@ -137,7 +137,7 @@ namespace EventFlow.SQLite.EventStores
             {
                 ids = await _connection.InsertMultipleAsync<long, EventDataModel>(
                     Label.Named("sqlite-insert-events"),
-                    string.Empty,
+                    null,
                     cancellationToken,
                     sql,
                     eventDataModels)
@@ -182,7 +182,7 @@ namespace EventFlow.SQLite.EventStores
                     AggregateSequenceNumber ASC";
             var eventDataModels = await _connection.QueryAsync<EventDataModel>(
                 Label.Named("sqlite-fetch-events"),
-                string.Empty,
+                null,
                 cancellationToken,
                 sql,
                 new
@@ -194,14 +194,35 @@ namespace EventFlow.SQLite.EventStores
             return eventDataModels;
         }
 
-        public Task<IReadOnlyCollection<ICommittedDomainEvent>> LoadCommittedEventsAsync(
+        public async Task<IReadOnlyCollection<ICommittedDomainEvent>> LoadCommittedEventsAsync(
             IIdentity id,
             int fromEventSequenceNumber,
             int toEventSequenceNumber,
             CancellationToken cancellationToken)
         {
-            // TODO: Implement this!
-            throw new NotImplementedException();
+            const string sql = @"
+                SELECT
+                    GlobalSequenceNumber, BatchId, AggregateId, AggregateName, Data, Metadata, AggregateSequenceNumber
+                FROM EventFlow
+                WHERE
+                    AggregateId = @AggregateId AND
+                    AggregateSequenceNumber >= @FromEventSequenceNumber AND
+                    AggregateSequenceNumber <= @ToEventSequenceNumber
+                ORDER BY
+                    AggregateSequenceNumber ASC";
+            var eventDataModels = await _connection.QueryAsync<EventDataModel>(
+                    Label.Named("sqlite-fetch-events"),
+                    null,
+                    cancellationToken,
+                    sql,
+                    new
+                    {
+                        AggregateId = id.Value,
+                        FromEventSequenceNumber = fromEventSequenceNumber,
+                        ToEventSequenceNumber = toEventSequenceNumber
+                    })
+                .ConfigureAwait(false);
+            return eventDataModels;
         }
 
         public async Task DeleteEventsAsync(
@@ -211,7 +232,7 @@ namespace EventFlow.SQLite.EventStores
             const string sql = "DELETE FROM EventFlow WHERE AggregateId = @AggregateId";
             var affectedRows = await _connection.ExecuteAsync(
                 Label.Named("sqlite-delete-aggregate"),
-                string.Empty,
+                null,
                 cancellationToken,
                 sql,
                 new { AggregateId = id.Value })
