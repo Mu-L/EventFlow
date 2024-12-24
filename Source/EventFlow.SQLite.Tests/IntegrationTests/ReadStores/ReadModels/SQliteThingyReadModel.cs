@@ -21,6 +21,8 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading;
+using System.Threading.Tasks;
 using EventFlow.Aggregates;
 using EventFlow.ReadStores;
 using EventFlow.Sql.ReadModels.Attributes;
@@ -45,19 +47,34 @@ namespace EventFlow.SQLite.Tests.IntegrationTests.ReadStores.ReadModels
         [SqlReadModelVersionColumn]
         public int Version { get; set; }
 
-        public void Apply(IReadModelContext context, IDomainEvent<ThingyAggregate, ThingyId, ThingyPingEvent> domainEvent)
+        public Task ApplyAsync(
+            IReadModelContext context,
+            IDomainEvent<ThingyAggregate, ThingyId, ThingyPingEvent> domainEvent,
+            CancellationToken cancellationToken)
         {
             PingsReceived++;
+
+            return Task.CompletedTask;
         }
 
-        public void Apply(IReadModelContext context, IDomainEvent<ThingyAggregate, ThingyId, ThingyDomainErrorAfterFirstEvent> domainEvent)
+        public Task ApplyAsync(
+            IReadModelContext context,
+            IDomainEvent<ThingyAggregate, ThingyId, ThingyDomainErrorAfterFirstEvent> domainEvent,
+            CancellationToken cancellationToken)
         {
             DomainErrorAfterFirstReceived = true;
+
+            return Task.CompletedTask;
         }
 
-        public void Apply(IReadModelContext context, IDomainEvent<ThingyAggregate, ThingyId, ThingyDeletedEvent> domainEvent)
+        public Task ApplyAsync(
+            IReadModelContext context,
+            IDomainEvent<ThingyAggregate, ThingyId, ThingyDeletedEvent> domainEvent,
+            CancellationToken cancellationToken)
         {
             context.MarkForDeletion();
+
+            return Task.CompletedTask;
         }
 
         public Thingy ToThingy()

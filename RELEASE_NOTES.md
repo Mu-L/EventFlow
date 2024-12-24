@@ -1,5 +1,6 @@
 ### New in 1.1.1 (working version, not released yet)
 
+* New: NuGet `EventFlow.SQLite` is now released as part of v1 and enables support for SQLite
 * Fix: Invoking `UseEventPersistence` now removes any previously registered event persistence. This
   fixes a service ordering issue in the following event store configurations
   - MongoDB
