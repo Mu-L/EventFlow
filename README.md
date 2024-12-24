@@ -75,7 +75,7 @@ The following list key characteristics of each version as well as its related br
     - 💚 `EventFlow.Redis`
     - 🟠 `EventFlow.RabbitMQ`
     - 🟢 `EventFlow.Sql`
-    - 🟠 `EventFlow.SQLite`
+    - 🟢 `EventFlow.SQLite`
     - 🟢 `EventFlow.TestHelpers`
 
   ### Branches

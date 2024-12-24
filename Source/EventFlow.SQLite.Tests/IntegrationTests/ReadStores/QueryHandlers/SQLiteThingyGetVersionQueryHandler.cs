@@ -45,6 +45,7 @@ namespace EventFlow.SQLite.Tests.IntegrationTests.ReadStores.QueryHandlers
         {
             var readModels = await _sqLiteConnection.QueryAsync<SQLiteThingyReadModel>(
                 Label.Named("sqlite-fetch-test-read-model"),
+                string.Empty,
                 cancellationToken,
                 "SELECT * FROM [ReadModel-ThingyAggregate] WHERE AggregateId = @AggregateId",
                 new { AggregateId = query.ThingyId.Value })
