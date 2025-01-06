@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 // 
-// Copyright (c) 2015-2024 Rasmus Mikkelsen
+// Copyright (c) 2015-2025 Rasmus Mikkelsen
 // https://github.com/eventflow/EventFlow
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -50,7 +50,7 @@ namespace EventFlow.Tests
             @"Copyright \(c\) (?<from>20\d{2})\-(?<to>20\d{2}) (?<name>.*)",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static readonly int CurrentYear = 2024; // Hardcoded, we don't want test failing every January 1'st
+        private static readonly int CurrentYear = 2025; // Hardcoded, we don't want test failing every January 1'st
 
         [Test]
         public async Task EveryFileHasCorrectLicenseHeader()
